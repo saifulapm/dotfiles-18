@@ -26,11 +26,6 @@ export PATH=$PATH:$HOME/go/bin
 
 # Store your own aliases in your $HOME directory and load them here
 [[ -f "$HOME/.aliases" ]] && source "$HOME/.aliases"
-alias ls="lsd"
-alias la="lsd -A"
-alias ll="lsd -l"
-alias lsa="lsd -lA"
-alias lt="lsd -A --tree --depth=3"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
