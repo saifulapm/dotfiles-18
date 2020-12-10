@@ -13,13 +13,13 @@ packages=("git" "gh" "git-delta" "wget" "curl" "neovim" "build-essential" "clang
 #=============
 # Functions
 #=============
-help() {
+installation_help() {
   echo -e "${bold}Installation and Configuration${normal}
 Install and configure your packages and environment.
 =========================================
 
 ${bold}Usage:${normal}
-  ./install [FLAGS] [OPTIONS]
+  ./install [OPTIONS]
 
 ${bold}Options:${normal}
   --distro <distro>
@@ -30,7 +30,7 @@ ${bold}Options:${normal}
 
 log() {
   script_name=${0##*/}
-  timestamp=$(date -u + "[${bold}%Y-%m-%d${normal} – ${bold}%H:%M:%S${normal}]")
+  timestamp=$(date -u +"[${bold}%Y-%m-%d${normal} – ${bold}%H:%M:%S${normal}]")
   echo -e "=== ${bold}$script_name${normal} $timestamp $1"
 }
 
@@ -54,7 +54,7 @@ setup() {
       configuration
     elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
       log "${bold}You are running this script on a GNU/Linux distribution. You must run it with the --distro <distro> option.${normal}"
-      help
+      installation_help
       exit 1
     fi
   else
@@ -101,11 +101,9 @@ setup() {
           exit 1
         fi
         ;;
-
       -h | --help)
-        help
+        installation_help
         ;;
-
       *)
         log "${bold}The $1 option wasn't found.${normal} Please see help."
         exit 1
@@ -113,6 +111,7 @@ setup() {
     esac
     shift
   fi
+  shift
 }
 
 configuration() {
@@ -199,4 +198,10 @@ configuration() {
   log "${bold}Configuration done."
 }
 
-setup
+if [[ -z "$1" ]]; then
+  setup
+elif [[ ! -z "$1" ]] && [[ -z "$2" ]]; then
+  setup "$1"
+else
+  setup "$1" "$2"
+fi
