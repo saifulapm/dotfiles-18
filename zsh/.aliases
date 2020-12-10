@@ -1,0 +1,12 @@
+# working directories aliases
+alias dev="$HOME/Development"
+alias pydev="$HOME/Development/Python"
+alias godev="$HOME/Development/Go"
+alias miscdev="$HOME/Development/Misc"
+
+# lsd aliases
+alias ls="lsd"
+alias la="lsd -A"
+alias ll="lsd -l"
+alias lsa="lsd -lA"
+alias lt="lsd -A --tree --depth=3"
