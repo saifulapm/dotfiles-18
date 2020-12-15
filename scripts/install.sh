@@ -8,7 +8,7 @@ normal=$(tput sgr0)
 red="\e[91m"
 green="\e[92m"
 folders=("Python" "Nodejs" "Go" "Misc")
-packages=("git""git-delta" "gh" "wget" "curl" "neovim" "build-essential" "clang" "python" "nodejs" "golang" "tmux" "lsd" "zsh" "ctags" "tar" "zip" "unzip" "unrar" "sqlite" "neofetch" "bat" "openssh" "openssl")
+packages=("git" "git-delta" "gh" "wget" "curl" "neovim" "build-essential" "clang" "python" "nodejs" "golang" "tmux" "lsd" "zsh" "ctags" "tar" "zip" "unzip" "unrar" "sqlite" "neofetch" "bat" "openssh" "openssl")
 
 #=============
 # Functions
@@ -166,7 +166,7 @@ configuration() {
   sleep 1
   log "${bold}Setting up zsh third-party plugins ...${normal}"
   sleep 0.5
-  git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+  git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
   git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
   sleep 1
   log "${bold}Copying configuration files and aliases ...${normal}"

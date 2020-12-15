@@ -1,15 +1,15 @@
 #!/bin/bash
 
-echo "Type your GitHub username.\n>> "
+printf "Type your GitHub username.\n>> "
 read username
 
-echo "Type your GitHub email.\n>> "
+printf "\nType your GitHub email.\n>> "
 read email
 
-echo "Do you want to rebase on pull? [true/false]\n>> "
+printf "\nDo you want to rebase on pull? [true/false]\n>> "
 read rebase
 
-echo "Configuring your github settings ..."
+echo "\nConfiguring your github settings ..."
 
 sleep 1
 
