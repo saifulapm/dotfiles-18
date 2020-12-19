@@ -1,6 +1,7 @@
 # working directories aliases
 alias dev="$HOME/Development"
 alias pydev="$HOME/Development/Python"
+alias nodev="$HOME/Development/Node"
 alias godev="$HOME/Development/Go"
 alias miscdev="$HOME/Development/Misc"
 
