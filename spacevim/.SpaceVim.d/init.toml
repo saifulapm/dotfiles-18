@@ -28,54 +28,71 @@
     autocomplete_method = 'coc'
     bootstrap_before = 'blood#before'
     bootstrap_after = 'blood#after'
+    default_indent = 4
 
 # Enable autocomplete layer
 [[layers]]
-name = 'autocomplete'
-auto_completion_return_key_behavior = "complete"
-auto_completion_tab_key_behavior = "smart"
+    name = 'autocomplete'
+    auto_completion_return_key_behavior = "complete"
+    auto_completion_tab_key_behavior = "smart"
 
 [[layers]]
-name = 'colorscheme'
+    name = 'core'
+    filetree_show_hidden = true
 
 [[layers]]
-name = 'shell'
-default_position = 'top'
-default_height = 50
+    name = 'colorscheme'
 
 [[layers]]
-name = 'checkers'
+    name = 'shell'
+    default_position = 'top'
+    default_height = 50
 
 [[layers]]
-name = 'VersionControl'
+    name = 'checkers'
 
 [[layers]]
-name = 'git'
-git-plugin = 'fugitive'
+    name = 'VersionControl'
 
 [[layers]]
-name = 'fzf'
+    name = 'git'
+    git-plugin = 'fugitive'
 
 [[layers]]
-name = 'lang#go'
+    name = 'fzf'
 
 [[layers]]
-name = 'lang#python'
-python_file_head = []
+    name = 'lang#python'
+    python_file_head = []
 
 [[layers]]
-name = 'lang#html'
+    name = 'lang#html'
 
 [[layers]]
-name = 'lang#javascript'
+    name = 'lang#javascript'
 
 [[layers]]
-name = 'lang#toml'
+    name = 'lang#vue'
+
+[[layers]]
+    name = 'lang#toml'
 
 [[custom_plugins]]
-repo = 'sainnhe/sonokai'
-merged = false
+    repo = 'sainnhe/sonokai'
+    merged = false
 
 [[custom_plugins]]
-repo = 'kristijanhusak/defx-icons'
-merged = false
+    repo = 'kristijanhusak/defx-icons'
+    merged = false
+
+[[custom_plugins]]
+    repo = 'kristijanhusak/defx-git'
+    merged = false
+
+[[custom_plugins]]
+    repo = 'cheap-glitch/vim-v'
+    merged = false
+
+[[custom_plugins]]
+    repo = 'skanehira/preview-markdown.vim'
+    merged = false
