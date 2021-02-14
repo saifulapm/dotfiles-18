@@ -20,6 +20,7 @@ Plug 'sbdchd/neoformat'             " File formatting
 Plug 'windwp/nvim-autopairs'        " Autopairs plugin
 Plug 'andweeb/presence.nvim'        " Discord RichPresence
 Plug 'liuchengxu/vista.vim'         " Viewer & finder for LSP symbols and tags
+Plug 'hrsh7th/vim-vsnip'            " Snippets
 call plug#end()
 autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()
 
@@ -49,7 +50,7 @@ let g:compe = {}
 let g:compe.enabled = v:true
 let g:compe.autocomplete = v:true
 let g:compe.debug = v:false
-let g:compe.min_length = 1
+let g:compe.min_length = 3
 let g:compe.preselect = 'enable'
 let g:compe.throttle_time = 80
 let g:compe.source_timeout = 200
@@ -57,6 +58,8 @@ let g:compe.incomplete_delay = 400
 let g:compe.max_abbr_width = 100
 let g:compe.max_kind_width = 100
 let g:compe.max_menu_width = 100
+let g:compe.documentation = v:true
+
 let g:compe.source = {}
 let g:compe.source.path = v:true
 let g:compe.source.buffer = v:true
@@ -68,6 +71,7 @@ let g:compe.source.spell = v:true
 let g:compe.source.tags = v:true
 let g:compe.source.snippets_nvim = v:true
 let g:compe.source.treesitter = v:true
+let g:compe.source.omni = v:true
 " https://github.com/hrsh7th/nvim-compe\#mappings
 inoremap <silent><expr> <C-Space> compe#complete()
 inoremap <silent><expr> <CR>      compe#confirm('<CR>')
@@ -120,7 +124,7 @@ set formatoptions-=cro
 set updatetime=100
 
 " needed for nvim-compe
-set completeopt=menu,menuone,noselect
+set completeopt=menu,menuone,preview,noselect,
 
 " gutter space for lsp info on left
 set signcolumn=yes
@@ -218,16 +222,17 @@ augroup END
 "========================================"
 "         Custom Key Mappings            "
 "                                        "
-"  <leader>g  = Git Menu                 "
-"  <leader>f  = File Menu                "
 "  <leader>b  = Buffer Menu              "
+"  <leader>f  = File Menu                "
+"  <leader>g  = Git Menu                 "
 "  <leader>p  = Plugin Menu              "
-"  <leader>w  = Window Menu              "
+"  <leader>T  = Toggle Menu              "
 "  <leader>t  = Terminal Menu            "
+"  <leader>w  = Window Menu              "
 "                                        "
 "         TAB = cycle buffers            "
-"      ctrl-s = save                     "
 "         ESC = search highlighting off  "
+"          F2 = toggle tag bar           "
 "          F3 = toggle tree explorer     "
 "========================================"
 " Define leader key to space and call vim-leader-mapper
@@ -298,24 +303,35 @@ let bufferMenu = {'name': 'Buffer Menu',
 " File menu
 let fileMenu = {'name': 'File Menu',
             \'f': [':Neoformat',  'Format the entire buffer'],
-            \'c': [':e $MYVIMRC', 'Edit init.vim']
+            \'n': [':new',        'Create a new unnamed buffer'],
+            \'c': [':e $MYVIMRC', 'Edit Neovim configuration']
             \}
 
 " Window menu
 let windowMenu = {'name': 'Window Menu',
+            \'h': [':split',  'Split horizontally'],
+            \'v': [':vsplit', 'Split vertically'],
+            \'c': [':close',  'Close current window'],
+            \'C': [':only',   'Close all other windows']
+            \}
+
+" Toggle menu
+let toggleMenu = {'name': 'Toggle Menu',
             \'n': [':set number! relativenumber!', 'Toggle Line Numbers'],
             \'t': [':NvimTreeToggle',              'Toggle Tree Explorer'],
-            \'T': [':Vista',                       'Toggle Tags view']
+            \'T': [':Vista',                       'Toggle Tags view'],
+            \'s': [':Startify',                    'Open start screen']
             \}
 
 " Define the main menu including the above menus
 let g:leaderMenu = {'name': 'Main Menu',
-            \'t': [termMenu,   'Terminal Menu'],
             \'b': [bufferMenu, 'Buffer Menu'],
             \'f': [fileMenu,   'File Menu'],
+            \'g': [gitMenu,    'Git Menu'],
             \'p': [pluginMenu, 'Plugin Menu'],
-            \'w': [windowMenu, 'Window Menu'],
-            \'g': [gitMenu,    'Git Menu']
+            \'T': [toggleMenu, 'Toggle Menu'],
+            \'t': [termMenu,   'Terminal Menu'],
+            \'w': [windowMenu, 'Window Menu']
             \}
 
 " tab to cycle buffers too, why not?
