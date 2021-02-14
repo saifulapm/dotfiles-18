@@ -19,6 +19,7 @@ Plug 'dpretet/vim-leader-mapper'    " Keybindings menu like SpaceVim
 Plug 'sbdchd/neoformat'             " File formatting
 Plug 'windwp/nvim-autopairs'        " Autopairs plugin
 Plug 'andweeb/presence.nvim'        " Discord RichPresence
+Plug 'liuchengxu/vista.vim'         " Viewer & finder for LSP symbols and tags
 call plug#end()
 autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()
 
@@ -87,7 +88,7 @@ lua require("autopairs")
 let g:spaceline_colorscheme = 'one'
 let g:spaceline_seperate_style = 'slant'
 let g:spaceline_diagnostic_tool = 'nvim_lsp'
-let g:spaceline_custom_vim_status = {"n": "Normal ","V":"Visual Line ","v":"Visual ","\<C-v>": "Visual Block ","i":"Insert ","R":"Replace ","s":"Insert ","t":"🅣 ","c":"Command ","!":"SE"}
+let g:spaceline_custom_vim_status = {"n": "Normal ","V":"Visual Line ","v":"Visual ","\<C-v>": "Visual Block ","i":"Insert ","R":"Replace ","s":"Insert ","t":"Terminal ","c":"Command ","!":"SE"}
 let g:spaceline_diff_tool = 'vim-signify'
 let g:spaceline_git_branch_icon = ''
 
@@ -238,9 +239,17 @@ vnoremap <silent> <leader> :LeaderMapper "<Space>"<CR>
 "=============="
 " LeaderMapper "
 "=============="
+" ToggleTerm custom function to avoid having
+" line numbers inside the terminal buffer
+" because that is not from God.
+function ToggleTerm()
+    execute "ToggleTerm"
+    set nonumber norelativenumber
+endfunction
+
 " Terminal menu
 let termMenu = {'name': 'Terminal Menu',
-            \'o': [':ToggleTerm', 'Open a new terminal']
+            \'o': [':call ToggleTerm()', 'Open a new terminal']
             \}
 
 " Git integration menu
@@ -295,7 +304,8 @@ let fileMenu = {'name': 'File Menu',
 " Window menu
 let windowMenu = {'name': 'Window Menu',
             \'n': [':set number! relativenumber!', 'Toggle Line Numbers'],
-            \'t': [':NvimTreeToggle',              'Toggle Tree Explorer']
+            \'t': [':NvimTreeToggle',              'Toggle Tree Explorer'],
+            \'T': [':Vista',                       'Toggle Tags view']
             \}
 
 " Define the main menu including the above menus
@@ -398,6 +408,35 @@ nnoremap <F3> :NvimTreeToggle<CR>
 
 " a list of groups can be found at `:help nvim_tree_highlight`
 highlight NvimTreeFolderIcon guibg=blue
+
+"==================="
+"  Vista.vim setup  "
+"==================="
+" How each level is indented and what to prepend
+" let g:vista_icon_indent = ['╰─▸ ', '├─▸ ']
+
+" Position to open the vista sidebar only
+let g:vista_sidebar_position = 'vertical topleft'
+
+" How to show the detailed information of current cursor symbol
+let g:vista_echo_cursor_strategy = 'both'
+
+" Close the vista window automati when you jump to a symbol
+let g:vista_close_on_jump = 1
+
+" Executive used when opening vista sidebar without specifying it
+let g:vista_default_executive = 'nvim_lsp'
+
+" Ensure you have installed some decent font to show these pretty symbols, then you can enable icon for the kind.
+let g:vista#renderer#enable_icon = 1
+
+" The default icons can't be suitable for all the filetypes, you can extend it as you wish.
+let g:vista#renderer#icons = {
+            \ "function": "\uf794",
+            \ "variable": "\uf71b",
+            \ }
+
+nnoremap <F2> :Vista<CR>
 
 "=================="
 "  Startify Setup  "
