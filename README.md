@@ -28,9 +28,11 @@ script inside the scripts folder.
 
 ### Neovim
 
-My setup for Neovim (nightly only) is made with performance and ease in mind and inspired by [SpaceVim](https://spacevim.org/). Currently it only contains LSPs for JS/TS and Python.
+My setup for Neovim (nightly only) is made with performance and ease in mind and inspired by [SpaceVim](https://spacevim.org/). Currently it only contains LSPs for JS/TS Python and V.
 
-In the future I will change the init.vim for an init.lua to have better compatibility with the plugins made in lua.
+In the future I will change the init.vim for an init.lua to have better compatibility with the plugins made in lua and better performance.
+
+> You will need to install [packer.nvim](https://github.com/wbthomason/packer.nvim) to install the plugins.
 
 |                Neovim Start Screen                 |             Pyright in action              |
 | :------------------------------------------------: | :----------------------------------------: |
@@ -40,9 +42,9 @@ In the future I will change the init.vim for an init.lua to have better compatib
 >
 > 1. If you want to use it to develop in other language, check [CONFIG.md](https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md) from the nvim-lsp repo.
 >
-> 2. You can change manually the header and the message by modifying the [init.vim](./nvim/init.vim)
+> 2. You can change manually the header and the message of Startify by modifying the [init.vim](./nvim/init.vim)
 >
-> 3. You can see the keybindings by pressing the Space key, like SpaceVim.
+> 3. You can see _some_ keybindings by pressing the Space key, something like SpaceVim.
 
 ---
 

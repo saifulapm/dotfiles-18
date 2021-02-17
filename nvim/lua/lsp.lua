@@ -47,14 +47,25 @@ local on_attach = function(client, bufnr)
     ]], false)
   end
 end
--- LSP Setup
+--[[-----------------]]--
+--      LSP Setup      --
+--]]-----------------[[--
 ---- JS/TS (TSServer)
 require'lspconfig'.tsserver.setup{}
 ---- Python (Pyright)
 require'lspconfig'.pyright.setup{}
+---- Vlang (VLS)
+-- Setup vls path, see
+-- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#vls
+local vls_root_path = vim.fn.stdpath('cache')..'/lspconfig/vls'
+local vls_binary = vls_root_path..'/cmd/vls/vls'
+
+require'lspconfig'.vls.setup {
+    cmd = { vls_binary }
+}
 -- Use a loop to conveniently both setup defined servers 
 -- and map buffer local keybindings when the language server attaches
-local servers = { "pyright", "tsserver" }
+local servers = { "pyright", "tsserver", "vls" }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup { on_attach = on_attach }
 end
