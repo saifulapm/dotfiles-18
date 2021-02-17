@@ -51,6 +51,8 @@ lua require("autopairs")
 lua require("tree-sitter")
 " lualine.nvim
 lua require("lualine-nvim")
+" focus.nvim
+lua require("focus-nvim")
 
 " The encoding written to file
 set encoding=utf-8

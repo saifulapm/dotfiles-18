@@ -25,6 +25,8 @@ return require('packer').startup(function()
     use 'hrsh7th/nvim-compe'
     -- Better terminal
     use 'akinsho/nvim-toggleterm.lua'
+    -- Better splits
+    use 'beauwilliams/focus.nvim'
     -- Keybindings menu like SpaceVim
     use 'dpretet/vim-leader-mapper'
     -- File formatting
