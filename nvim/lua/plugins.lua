@@ -4,7 +4,12 @@ return require('packer').startup(function()
     -- Packer can manage itself as an optional plugin
     use { 'wbthomason/packer.nvim', opt = true }
     -- Fancy start screen
-    use 'mhinz/vim-startify'
+    use 'glepnir/dashboard-nvim'
+    -- Telescope.nvim, fuzzy search
+    use {
+        'nvim-telescope/telescope.nvim',
+        requires = { {'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'} }
+    }
     -- Colorscheme
     use 'sainnhe/sonokai'
     -- File icons
@@ -12,7 +17,7 @@ return require('packer').startup(function()
     -- File tree
     use 'kyazdani42/nvim-tree.lua'
     -- Statusline
-    use { 'hoob3rt/lualine.nvim' }
+    use 'glepnir/galaxyline.nvim'
     -- Tabline
     use 'romgrk/barbar.nvim'
     -- Git gutter alternative
@@ -28,7 +33,7 @@ return require('packer').startup(function()
     -- Better splits
     use 'beauwilliams/focus.nvim'
     -- Keybindings menu like SpaceVim
-    use 'dpretet/vim-leader-mapper'
+    use 'spinks/vim-leader-guide'
     -- File formatting
     use 'sbdchd/neoformat'
     -- Autopairs
@@ -47,6 +52,11 @@ return require('packer').startup(function()
     use 'b3nj5m1n/kommentary'
     -- Vlang support
     use 'ollykel/v-vim'
+    -- Fastest colorizer
+    use 'norcalli/nvim-colorizer.lua'
     -- EditorConfig support
     use 'editorconfig/editorconfig-vim'
+    -- HTTP Client support, requires
+    -- https://github.com/bayne/dot-http
+    use 'bayne/vim-dot-http'
 end)

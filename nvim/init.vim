@@ -19,7 +19,7 @@ let g:sonokai_enable_italic = 1
 let g:sonokai_italic_comment = 1
 let g:sonokai_current_word = 'bold'
 let g:sonokai_better_performance = 1
-let g:sonokai_transparent_background = 1
+let g:sonokai_transparent_background = 0
 
 colorscheme sonokai
 
@@ -49,8 +49,8 @@ lua require("nvim-toggleterm")
 lua require("autopairs")
 " tree-sitter
 lua require("tree-sitter")
-" lualine.nvim
-lua require("lualine-nvim")
+" galaxyline.nvim
+lua require("galaxyline-nvim")
 " focus.nvim
 lua require("focus-nvim")
 
@@ -166,8 +166,6 @@ augroup END
 " Define leader key to space and call vim-leader-mapper
 nnoremap <Space> <Nop>
 let mapleader = "\<Space>"
-nnoremap <silent> <leader> :LeaderMapper "<Space>"<CR>
-vnoremap <silent> <leader> :LeaderMapper "<Space>"<CR>
 
 "=============="
 " LeaderMapper "
@@ -180,82 +178,136 @@ function ToggleTerm()
     set nonumber norelativenumber
 endfunction
 
-" Terminal menu
-let termMenu = {'name': 'Terminal Menu',
-            \'o': [':call ToggleTerm()', 'Open a new terminal']
-            \}
-" Git integration menu
-let gitMenu = {'name': 'Git Menu',
-            \'o': [':LazyGit',             'Open LazyGit'],
-            \'P': [':TermExec git pull',   'Pull'],
-            \'p': [':TermExec git push',   'Push'],
-            \'s': [':TermExec git status', 'Status']
-            \}
-" Plugins menu
-let pluginMenu = {'name': 'Plugin Menu',
-            \'C': [':PackerCompile', 'Run when you make changes to your plugins'],
-            \'c': [':PackerClean',   'Clean disabled or unused plugins'],
-            \'i': [':PackerInstall', 'Install missing plugins'],
-            \'s': [':PackerSync',  'Performs PackerClean and then PackerUpdate'],
-            \'u': [':PackerUpdate',  'Update your plugins']
-            \}
-" Buffer order menu
-let orderMenu = {'name': 'Order Buffer Menu',
-            \'d': [':BufferOrderByDirectory', 'Sort by directory'],
-            \'l': [':BufferOrderByLanguage',  'Sort by language'],
-            \'n': [':BufferMoveNext',         'Re-order buffer to next'],
-            \'p': [':BufferMovePrevious',     'Re-order buffer to previous']
-            \}
-" Buffer (barbar.lua) menu
-let bufferMenu = {'name': 'Buffer Menu',
-            \1:   [':BufferGoto 1',   'Buffer 1'],
-            \2:   [':BufferGoto 2',   'Buffer 2'],
-            \3:   [':BufferGoto 3',   'Buffer 3'],
-            \4:   [':BufferGoto 4',   'Buffer 4'],
-            \5:   [':BufferGoto 5',   'Buffer 5'],
-            \6:   [':BufferGoto 6',   'Buffer 6'],
-            \7:   [':BufferGoto 7',   'Buffer 7'],
-            \8:   [':BufferGoto 8',   'Buffer 8'],
-            \9:   [':BufferLast',     'Last buffer'],
-            \'c': [':BufferClose',    'Close buffer'],
-            \'n': [':BufferNext',     'Next buffer'],
-            \'o': [orderMenu,         'Order buffers'],
-            \'P': [':BufferPick',     'Pick buffer'],
-            \'p': [':BufferPrevious', 'Previous buffer']
-            \}
-" File menu
-let fileMenu = {'name': 'File Menu',
-            \'c': [':e $MYVIMRC', 'Edit Neovim configuration'],
-            \'f': [':Neoformat',  'Format the entire buffer'],
-            \'n': [':new',        'Create a new unnamed buffer']
-            \}
-" Window menu
-let windowMenu = {'name': 'Window Menu',
-            \'C': [':only',   'Close all other windows'],
-            \'c': [':close',  'Close current window'],
-            \'h': [':split',  'Split horizontally'],
-            \'v': [':vsplit', 'Split vertically']
-            \}
-
-" Toggle menu
-let toggleMenu = {'name': 'Toggle Menu',
-            \'m': [':MinimapToggle',               'Toggle Minimap'],
-            \'n': [':set number! relativenumber!', 'Toggle Line Numbers'],
-            \'s': [':Startify',                    'Open start screen'],
-            \'T': [':Vista',                       'Toggle Tags view'],
-            \'t': [':NvimTreeToggle',              'Toggle Tree Explorer']
-            \}
-
-" Define the main menu including the above menus
-let g:leaderMenu = {'name': 'Main Menu',
-            \'b': [bufferMenu, 'Buffer Menu'],
-            \'f': [fileMenu,   'File Menu'],
-            \'g': [gitMenu,    'Git Menu'],
-            \'p': [pluginMenu, 'Plugin Menu'],
-            \'T': [toggleMenu, 'Toggle Menu'],
-            \'t': [termMenu,   'Terminal Menu'],
-            \'w': [windowMenu, 'Window Menu']
-            \}
+" See https://github.com/spinks/vim-leader-guide#recommended
+" to know why we are mapping like this
+" Define prefix dictionary
+let g:lmap = {}
+"==================="
+"   Terminal menu   "
+"==================="
+let g:lmap.T = {'name': 'Terminal Menu'}
+nnoremap <leader>To :call ToggleTerm()<CR>
+let g:lmap.T.o = 'Open a new terminal'
+"==============="
+"    Git menu   "
+"==============="
+let g:lmap.g = {'name': 'Git Menu'}
+nnoremap <leader>go :LazyGit<CR>
+let g:lmap.g.o = 'Open LazyGit'
+nnoremap <leader>gP :TermExec git pull<CR>
+let g:lmap.g.P = 'Pull'
+nnoremap <leader>gp :TermExec git push<CR>
+let g:lmap.g.p = 'Push'
+nnoremap <leader>gs :TermExec git status<CR>
+let g:lmap.g.s = 'Status'
+"=================="
+"   Plugins menu   "
+"=================="
+let g:lmap.p = {'name': 'Plugin Menu'}
+nnoremap <leader>pC :PackerCompile<CR>
+let g:lmap.p.C = 'Run when you make changes to your plugins'
+nnoremap <leader>pc :PackerClean<CR>
+let g:lmap.p.c = 'Clean disabled or unused plugins'
+nnoremap <leader>pi :PackerInstall<CR>
+let g:lmap.p.i = 'Install missing plugins'
+nnoremap <leader>ps :PackerSync<CR>
+let g:lmap.p.s = 'Performs PackerClean and then PackerUpdate'
+nnoremap <leader>pu :PackerUpdate<CR>
+let g:lmap.p.u = 'Update your plugins'
+"================="
+"   Buffer menu   "
+"================="
+let g:lmap.b = {'name': 'Buffer Menu'}
+nnoremap <leader>b1 :BufferGoto 1<CR>
+let g:lmap.b.1 = 'Buffer 1'
+nnoremap <leader>b2 :BufferGoto 2<CR>
+let g:lmap.b.2 = 'Buffer 2'
+nnoremap <leader>b3 :BufferGoto 3<CR>
+let g:lmap.b.3 = 'Buffer 3'
+nnoremap <leader>b4 :BufferGoto 4<CR>
+let g:lmap.b.4 = 'Buffer 4'
+nnoremap <leader>b5 :BufferGoto 5<CR>
+let g:lmap.b.5 = 'Buffer 5'
+nnoremap <leader>b6 :BufferGoto 6<CR>
+let g:lmap.b.6 = 'Buffer 6'
+nnoremap <leader>b7 :BufferGoto 7<CR>
+let g:lmap.b.7 = 'Buffer 7'
+nnoremap <leader>b8 :BufferGoto 8<CR>
+let g:lmap.b.8 = 'Buffer 8'
+nnoremap <leader>b9 :BufferLast<CR>
+let g:lmap.b.9 = 'Last buffer'
+nnoremap <leader>bc :BufferClose<CR>
+let g:lmap.b.c = 'Close buffer'
+nnoremap <leader>bf :Neoformat<CR>
+let g:lmap.b.f = 'Format buffer'
+nnoremap <leader>bn :BufferNext<CR>
+let g:lmap.b.n = 'Next buffer'
+nnoremap <leader>bP :BufferPick<CR>
+let g:lmap.b.P = 'Pick buffer'
+nnoremap <leader>bp :BufferPrevious<CR>
+let g:lmap.b.p = 'Previous buffer'
+"==================="
+" Buffer order menu "
+"==================="
+let g:lmap.o = {'name': 'Order Buffer Menu'}
+nnoremap <leader>od :BufferOrderByDirectory<CR>
+let g:lmap.o.d = 'Sort by directory'
+nnoremap <leader>ol :BufferOrderByLanguage<CR>
+let g:lmap.o.l = 'Sort by language'
+nnoremap <leader>on :BufferMoveNext<CR>
+let g:lmap.o.n = 'Re-order buffer to next'
+nnoremap <leader>op :BufferMovePrevious<CR>
+let g:lmap.o.p = 'Re-order buffer to previous'
+"==============="
+"   File menu   "
+"==============="
+let g:lmap.f = {'name': 'File Menu'}
+nnoremap <leader>fb :Telescope marks<CR>
+let g:lmap.f.b = 'Bookmarks'
+nnoremap <leader>fc :e $MYVIMRC<CR>
+let g:lmap.f.c = 'Edit Neovim configuration'
+nnoremap <leader>ff :Telescope find_files<CR>
+let g:lmap.f.f = 'Find file'
+nnoremap <leader>fg :Telescope live_grep<CR>
+let g:lmap.f.g = 'Find word'
+" Override existing telescope <leader>fh mapping
+autocmd VimEnter * noremap <leader>fh :Telescope oldfiles<CR>
+" nnoremap <leader>fh :call Telescope oldfiles<CR>
+let g:lmap.f.h = 'Recently opened files'
+nnoremap <leader>fn :new<CR>
+let g:lmap.f.n = 'Create a new unnamed buffer'
+"================="
+"   Window menu   "
+"================="
+let g:lmap.w = {'name': 'Window Menu'}
+nnoremap <leader>wC :only<CR>
+let g:lmap.w.C = 'Close all other windows'
+nnoremap <leader>wc :close<CR>
+let g:lmap.w.c = 'Close current window'
+nnoremap <leader>wh :split<CR>
+let g:lmap.w.h = 'Split horizontally'
+nnoremap <leader>wv :vsplit<CR>
+let g:lmap.w.v = 'Split vertically'
+"================="
+"   Toggle menu   "
+"================="
+let g:lmap.t = {'name': 'Toggle Menu'}
+nnoremap <leader>tc :Telescope colorscheme<CR>
+let g:lmap.t.c = 'Change colorscheme'
+nnoremap <leader>tm :MinimapToggle<CR>
+let g:lmap.t.m = 'Toggle Minimap'
+nnoremap <leader>tn :set number! relativenumber!<CR>
+let g:lmap.t.n = 'Toggle Line Numbers'
+nnoremap <leader>ts :Dashboard<CR>
+let g:lmap.t.s = 'Open start screen'
+nnoremap <leader>tT :Vista!!<CR>
+let g:lmap.t.T = 'Toggle Tags view'
+nnoremap <leader>tt :NvimTreeToggle<CR>
+let g:lmap.t.t = 'Toggle Tree Explorer'
+" Register the dictionary
+call leaderGuide#register_prefix_descriptions("<Space>", "g:lmap")
+nnoremap <silent> <leader> :<c-u>LeaderGuide '<Space>'<CR>
+vnoremap <silent> <leader> :<c-u>LeaderGuideVisual '<Space>'<CR>
 
 " tab to cycle buffers too, why not?
 nnoremap <silent><Tab> :bnext<CR>
@@ -371,44 +423,58 @@ let g:vista#renderer#icons = {
             \ "variable": "\uf71b",
             \ }
 
+"======================"
+"  nvim-colorizer.lua  "
+"======================"
+lua require('nvim-colorizer')
+
 "=================="
-"  Startify Setup  "
+"  Telescope.nvim  "
 "=================="
-" Startify list
-let g:startify_lists = [
-            \ { 'type': 'dir',      'header': ['    Most Recently Used files in the current directory:'] },
-            \ { 'type': 'files',    'header': ['    Most Recently Used:'] }
+lua require('telescope-nvim')
+" Find files using Telescope command-line sugar using lua functions.
+" https://github.com/nvim-telescope/telescope.nvim#usage
+nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
+nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+
+"========================"
+"  Dashboard-nvim Setup  "
+"========================"
+" Default fuzzy search plugin
+let g:dashboard_default_executive = 'telescope'
+" Get neovim version
+let nvim_version = matchstr(execute('version'), 'v\zs[^\n]*')
+" Custom header taken from https://github.com/btwiusegentoo dotfiles
+let g:dashboard_custom_header = [
+            \ "",
+            \ "       ▄▄        ▄▄ ",
+            \ "     ▄████       ███▄                                            ▄▄ ",
+            \ "   ▄ ▀█████▄     █████                                           ▀▀ ",
+            \ "   ▌ ▀▄██████    █████     ▌ ▄▀▀▄▄   ▄▄▀▀ ▄    ▄ ▀▀▄▄ ▓█▄    ▄█▌▐██ ▐██▄███▄▄▓███▄ ",
+            \ "   ▌    ▀█████▄  █████     ▌     ▐  ▓      █ ▄▀     ▐▌ ██▄  ▄█▌ ▐██ ▐██   ▐██   ▓██ ",
+            \ "   ▌   ▐  ██████ █████     ▌     ▐▌ █▀▀▀▀▀▀▀ █       █  ██ ▐██  ▐██ ▐██   ▐██   ▐██ ",
+            \ "   ▌   ▐   ▀█████▄████     ▌     ▐▌ █        ▀▄      █   ████   ▐██ ▐██   ▐██   ▐██ ",
+            \ "   ▌   ▐    ▀█████▄▀██     ▌     ▐   ▀▀▄▄▄▀▀   ▀▄▄▄▀▀    ▐▀▀    ▐▀▀ ▐▀▀   ▐▀▀   ▐▀▀ ",
+            \ "   ▀   ▐      ▀█████ █ ",
+            \ "     ▀▄▐       ▀████ ",
+            \ "       ▀         ▀ ",
+            \ "",
+            \ "                                                             version: ". nvim_version ."",
+            \ "",
+            \ "",
+            \ "",
+            \ "",
+            \ "",
             \ ]
-" The number of files to list
-let g:startify_files_number = 10
-" A list of Vim regular expressions that is used to filter recently used files
-let g:startify_skiplist = [
-            \ 'runtime/doc/.*\.txt$',
-            \ 'bundle/.*/doc/.*\.txt$',
-            \ 'plugged/.*/doc/.*\.txt$',
-            \ '/.git/',
-            \ '/node_modules/',
-            \ escape(fnamemodify(resolve($VIMRUNTIME), ':p'), '\') .'doc/.*\.txt$'
-            \]
-" Using this option updates v:oldfiles on-the-fly, so that :Startify is always up-to-date
-let g:startify_update_oldfiles = 1
-" When opening a file or bookmark, change to its directory
-let g:startify_change_to_dir = 1
-" The default command for switching directories
-let g:startify_change_cmd = 'lcd'
-" Custom header
-let g:startify_custom_header = [
-            \ '     ███▄    █▄▄▄█████▓▄▄▄▄   ▄▄▄▄   ██▓    ▒█████  ▒█████ ▓█████▄ ▄▄▄▄   ▄▄▄    ▄▄▄█████▓██░ ██     ',
-            \ '     ██ ▀█   █▓  ██▒ ▓▓█████▄▓█████▄▓██▒   ▒██▒  ██▒██▒  ██▒██▀ ██▓█████▄▒████▄  ▓  ██▒ ▓▓██░ ██▒    ',
-            \ '    ▓██  ▀█ ██▒ ▓██░ ▒▒██▒ ▄█▒██▒ ▄█▒██░   ▒██░  ██▒██░  ██░██   █▒██▒ ▄█▒██  ▀█▄▒ ▓██░ ▒▒██▀▀██░    ',
-            \ '    ▓██▒  ▐▌██░ ▓██▓ ░▒██░█▀ ▒██░█▀ ▒██░   ▒██   ██▒██   ██░▓█▄   ▒██░█▀ ░██▄▄▄▄█░ ▓██▓ ░░▓█ ░██     ',
-            \ '    ▒██░   ▓██░ ▒██▒ ░░▓█  ▀█░▓█  ▀█░██████░ ████▓▒░ ████▓▒░▒████▓░▓█  ▀█▓▓█   ▓██▒▒██▒ ░░▓█▒░██▓    ',
-            \ '    ░ ▒░   ▒ ▒  ▒ ░░  ░▒▓███▀░▒▓███▀░ ▒░▓  ░ ▒░▒░▒░░ ▒░▒░▒░ ▒▒▓  ▒░▒▓███▀▒▒▒   ▓▒█░▒ ░░   ▒ ░░▒░▒    ',
-            \ '    ░ ░░   ░ ▒░   ░   ▒░▒   ░▒░▒   ░░ ░ ▒  ░ ░ ▒ ▒░  ░ ▒ ▒░ ░ ▒  ▒▒░▒   ░  ▒   ▒▒ ░  ░    ▒ ░▒░ ░    ',
-            \ '       ░   ░ ░  ░      ░    ░ ░    ░  ░ ░  ░ ░ ░ ▒ ░ ░ ░ ▒  ░ ░  ░ ░    ░  ░   ▒   ░      ░  ░░ ░    ',
-            \ '             ░         ░      ░         ░  ░   ░ ░     ░ ░    ░    ░           ░  ░       ░  ░  ░    ',
-            \ '                            ░      ░                        ░           ░                            ',
-            \ '                                                                                                     ',
-            \ '                                                                                                     ',
-            \ '                    "Solve the problem and then write the code" - GitHub : NTBBloodbath              '
-            \ ]
+" Custom footer
+" See how much plugins are there
+let plugins_dir = globpath('~/.local/share/nvim/site/pack/packer/start', '*', 0, 1)
+let plugins_count = len(plugins_dir)
+let g:dashboard_custom_footer = ["Neovim loaded ". plugins_count ." plugins"]
+" headercolor
+hi! dashboardHeader guifg=#c3e88d
+hi! dashboardCenter guifg=#89ddff
+hi! dashboardShortcut guifg=#c792ea
+hi! dashboardFooter guifg=#676E95

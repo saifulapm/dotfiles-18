@@ -2,13 +2,14 @@
 -- changed servers and ctermbg=237
 -- added buf_set_keymap('n', 'ga', '<Cmd>lua vim.lsp.buf.code_action()<CR>', opts)
 local nvim_lsp = require('lspconfig')
+-- Snippets support
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-  -- Snippets support
-  local capabilities = vim.lsp.protocol.make_client_capabilities()
-  capabilities.textDocument.completion.completionItem.snippetSupport = true
   -- Mappings.
   local opts = { noremap=true, silent=true }
   buf_set_keymap('n', 'ga', '<Cmd>lua vim.lsp.buf.code_action()<CR>', opts)
@@ -50,11 +51,24 @@ end
 --[[-----------------]]--
 --      LSP Setup      --
 --]]-----------------[[--
----- JS/TS (TSServer)
-require'lspconfig'.tsserver.setup{}
----- Python (Pyright)
-require'lspconfig'.pyright.setup{}
----- Vlang (VLS)
+----[ Web-oriented LS ]----
+--- HTML
+-- npm install -g vscode-html-languageserver-bin
+nvim_lsp.html.setup{ capabilities = capabilities }
+--- CSS (SCSS/CSS/LESS)
+-- npm install -g vscode-css-languageserver-bin
+nvim_lsp.cssls.setup{}
+--- JS/TS (TSServer)
+-- npm install -g typescript typescript-language-server
+nvim_lsp.tsserver.setup{}
+--- Vue (VueLS)
+-- npm install -g vls
+nvim_lsp.vuels.setup{}
+--- Python (Pyright)
+-- npm install -g pyright
+nvim_lsp.pyright.setup{}
+----[ Misc LS ]----
+--- Vlang (VLS)
 -- Setup vls path, see
 -- https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#vls
 local vls_root_path = vim.fn.stdpath('cache')..'/lspconfig/vls'

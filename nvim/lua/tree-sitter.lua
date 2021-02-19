@@ -4,4 +4,8 @@ local ts = require('nvim-treesitter.configs')
     maintained languages modules instead of a list of languages. You also need to
     set highlight to true, otherwise the plugin will be disabled.
 --]]
-ts.setup { ensure_installed = {"javascript", "python"}, highlight = { enabled = true } }
+ts.setup {
+    ensure_installed = { "html", "css", "javascript", "python" },
+    highlight = { enabled = true },
+    indent = { enable = true }
+}
