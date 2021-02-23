@@ -15,23 +15,18 @@ if has('termguicolors')
 endif
 " sonokai configurations
 let g:sonokai_style = 'andromeda'
-let g:sonokai_enable_italic = 1
-let g:sonokai_italic_comment = 1
+let g:sonokai_enable_italic = 0
+let g:sonokai_italic_comment = 0
 let g:sonokai_current_word = 'bold'
 let g:sonokai_better_performance = 1
 let g:sonokai_transparent_background = 0
 
-colorscheme sonokai
+colorscheme dogrun
 
 
 "======================================="
 "              Setup LSP                "
 "======================================="
-lua require("lsp")
-"=================="
-"    nvim-compe    "
-"=================="
-lua require("nvim-compe")
 " https://github.com/hrsh7th/nvim-compe\#mappings
 inoremap <silent><expr> <C-Space> compe#complete()
 inoremap <silent><expr> <CR>      compe#confirm('<CR>')
@@ -43,17 +38,6 @@ inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 "======================================="
 "              Settings                 "
 "======================================="
-" nvim-toggleterm.lua
-lua require("nvim-toggleterm")
-" nvim-autopairs.lua
-lua require("autopairs")
-" tree-sitter
-lua require("tree-sitter")
-" galaxyline.nvim
-lua require("galaxyline-nvim")
-" focus.nvim
-lua require("focus-nvim")
-
 " The encoding written to file
 set encoding=utf-8
 " Enable your mouse, thanks god!
@@ -138,7 +122,7 @@ let g:neoformat_basic_format_trim = 0
 let g:neoformat_enabled_python = ['yapf']
 let g:neoformat_enabled_javascript = ['prettier']
 " Only message when there is an error
-let g:neoformat_only_msg_on_error = 1
+let g:neoformat_only_msg_on_error = 0
 " Format on save
 augroup formatting
     autocmd!
@@ -153,6 +137,7 @@ augroup END
 "  <leader>f  = File Menu                "
 "  <leader>g  = Git Menu                 "
 "  <leader>p  = Plugin Menu              "
+"  <leader>r  = Runner Menu              "
 "  <leader>T  = Toggle Menu              "
 "  <leader>t  = Terminal Menu            "
 "  <leader>w  = Window Menu              "
@@ -162,6 +147,8 @@ augroup END
 "          F2 = Toggle Tagbar            "
 "          F3 = Toggle Tree Explorer     "
 "          F4 = Toggle Minimap           "
+"          F5 = Run dot-http             "
+"          F6 = Toggle markdown preview  "
 "========================================"
 " Define leader key to space and call vim-leader-mapper
 nnoremap <Space> <Nop>
@@ -270,9 +257,13 @@ nnoremap <leader>ff :Telescope find_files<CR>
 let g:lmap.f.f = 'Find file'
 nnoremap <leader>fg :Telescope live_grep<CR>
 let g:lmap.f.g = 'Find word'
+nnoremap <leader>fw :SudaWrite<CR>
+let g:lmap.f.w = 'Write file with sudo permissions (For unwritable files)'
+nnoremap <leader>fr :SudaRead<CR>
+let g:lmap.f.r = 'Re-open file with sudo permissions (For unreadable files only!)'
 " Override existing telescope <leader>fh mapping
-autocmd VimEnter * noremap <leader>fh :Telescope oldfiles<CR>
-" nnoremap <leader>fh :call Telescope oldfiles<CR>
+" autocmd VimEnter * noremap <leader>fh :Telescope oldfiles<CR>
+nnoremap <leader>fh :Telescope olfiles<CR>
 let g:lmap.f.h = 'Recently opened files'
 nnoremap <leader>fn :new<CR>
 let g:lmap.f.n = 'Create a new unnamed buffer'
@@ -289,11 +280,32 @@ let g:lmap.w.h = 'Split horizontally'
 nnoremap <leader>wv :vsplit<CR>
 let g:lmap.w.v = 'Split vertically'
 "================="
+"   Runner menu   "
+"================="
+let g:lmap.r = {'name': 'Runner Menu'}
+vnoremap <leader>rb :SnipRun<CR>
+let g:lmap.r.b = 'Run the selected block'
+nnoremap <leader>rc :SnipReplMemoryClean<CR>
+let g:lmap.r.c = 'Clear the REPL memory, useful when memory is corrupted by bad code'
+" rh is not SnipRun-related!
+nnoremap <leader>rh :DotHttp<CR>
+let g:lmap.r.h = 'Run dot-http on the line that the cursor is currently on'
+nnoremap <leader>ri :SnipInfo<CR>
+let g:lmap.r.i = 'Display available interpreters information'
+nnoremap <leader>rR :SnipReset<CR>
+let g:lmap.r.R = 'Reset SnipRun, useful when you did an infinite loop or it takes longer'
+nnoremap <leader>rr :%SnipRun<CR>
+let g:lmap.r.r = 'Run the entire buffer content'
+nnoremap <leader>rt :SnipTerminate<CR>
+let g:lmap.r.t = 'Same as Reset but does not cleans the cache directory'
+"================="
 "   Toggle menu   "
 "================="
 let g:lmap.t = {'name': 'Toggle Menu'}
 nnoremap <leader>tc :Telescope colorscheme<CR>
 let g:lmap.t.c = 'Change colorscheme'
+nnoremap <leader>tM :call mkdp#util#toggle_preview()<CR>
+let g:lmap.t.M = 'Toggle Markdown preview'
 nnoremap <leader>tm :MinimapToggle<CR>
 let g:lmap.t.m = 'Toggle Minimap'
 nnoremap <leader>tn :set number! relativenumber!<CR>
@@ -319,6 +331,8 @@ nnoremap <silent><esc> :noh<cr>
 nnoremap <F2> :Vista!!<CR>
 nnoremap <F3> :NvimTreeToggle<CR>
 nnoremap <F4> :MinimapToggle<CR>
+nnoremap <F5> :DotHttp<CR>
+nnoremap <F6> :call mkdp#util#toggle_preview()<CR>
 
 "=================="
 "   Disable keys   "
@@ -423,21 +437,42 @@ let g:vista#renderer#icons = {
             \ "variable": "\uf71b",
             \ }
 
-"======================"
-"  nvim-colorizer.lua  "
-"======================"
-lua require('nvim-colorizer')
+"======================="
+" markdown-preview.nvim "
+"======================="
+" set to 1, nvim will open the preview window after entering the markdown buffer
+" default: 0
+let g:mkdp_auto_start = 0
+" set to 1, the nvim will auto close current preview window when change
+" from markdown buffer to another buffer
+" default: 1
+let g:mkdp_auto_close = 1
+" set to 1, the vim will refresh markdown when save the buffer or
+" leave from insert mode, default 0 is auto refresh markdown as you edit or
+" move the cursor
+" default: 0
+let g:mkdp_refresh_slow = 0
+" set to 1, echo preview page url in command line when open preview page
+" default is 0
+let g:mkdp_echo_preview_url = 1
+" use a custom port to start server or random for empty
+let g:mkdp_port = '5000'
+" preview page title
+" ${name} will be replace with the file name
+let g:mkdp_page_title = '「${name}」'
+" recognized filetypes
+" these filetypes will have MarkdownPreview... commands
+let g:mkdp_filetypes = ['markdown']
 
 "=================="
 "  Telescope.nvim  "
 "=================="
-lua require('telescope-nvim')
 " Find files using Telescope command-line sugar using lua functions.
 " https://github.com/nvim-telescope/telescope.nvim#usage
 nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
 nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
 nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
-nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+nnoremap <leader>ft <cmd>lua require('telescope.builtin').help_tags()<cr>
 
 "========================"
 "  Dashboard-nvim Setup  "
@@ -446,7 +481,6 @@ nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 let g:dashboard_default_executive = 'telescope'
 " Get neovim version
 let nvim_version = matchstr(execute('version'), 'v\zs[^\n]*')
-" Custom header taken from https://github.com/btwiusegentoo dotfiles
 let g:dashboard_custom_header = [
             \ "",
             \ "       ▄▄        ▄▄ ",
