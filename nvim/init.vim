@@ -5,7 +5,6 @@
 "======================================="
 lua require('plugins')
 
-
 "======================================="
 "           Load colorscheme            "
 "======================================="
@@ -113,21 +112,24 @@ augroup END
 "=================="
 " Enable basic formatting when a filetype is not found
 " Enable alignment
-let g:neoformat_basic_format_align = 0
+let g:neoformat_basic_format_align = 1
 " Enable tab to spaces conversion
-let g:neoformat_basic_format_retab = 0
+let g:neoformat_basic_format_retab = 1
 " Enable trimmming of trailing whitespace
-let g:neoformat_basic_format_trim = 0
+let g:neoformat_basic_format_trim = 1
+" Run all the formatters if the defined below fails
+let g:neoformat_run_all_formatters = 1
 " Enabled formatters for different filetypes
+let g:neoformat_enabled_toml = ['prettier']
 let g:neoformat_enabled_python = ['yapf']
 let g:neoformat_enabled_javascript = ['prettier']
 " Only message when there is an error
 let g:neoformat_only_msg_on_error = 0
 " Format on save
-augroup formatting
-    autocmd!
-    autocmd BufWritePre * undojoin | Neoformat
-augroup END
+" augroup formatting
+"     autocmd!
+"     autocmd BufWritePre * undojoin | Neoformat
+" augroup END
 
 
 "========================================"
@@ -175,6 +177,18 @@ let g:lmap = {}
 let g:lmap.T = {'name': 'Terminal Menu'}
 nnoremap <leader>To :call ToggleTerm()<CR>
 let g:lmap.T.o = 'Open a new terminal'
+"================"
+"    LSP Menu    "
+"================"
+" Already set in lua/plugins/lsp.lua but not in the leader menu,
+" that's why we are mapping them again at the moment, need to change it.
+let g:lmap.l = {'name': 'LSP Menu'}
+nnoremap <leader>lD <cmd>lua vim.lsp.buf.type_definition()<CR>
+let g:lmap.l.D = 'Show type definition'
+nnoremap <leader>le <cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
+let g:lmap.l.e = 'Show line diagnostics'
+nnoremap <leader>lq <cmd>lua vim.lsp.diagnostic.set_loclist()<CR>
+let g:lmap.l.q = 'Diagnostics into location list'
 "==============="
 "    Git menu   "
 "==============="
@@ -201,6 +215,8 @@ nnoremap <leader>ps :PackerSync<CR>
 let g:lmap.p.s = 'Performs PackerClean and then PackerUpdate'
 nnoremap <leader>pu :PackerUpdate<CR>
 let g:lmap.p.u = 'Update your plugins'
+nnoremap <leader>pr :Telescope reloader<CR>
+let g:lmap.p.r = 'Reload your plugins, useful when modifying configs'
 "================="
 "   Buffer menu   "
 "================="
@@ -257,13 +273,15 @@ nnoremap <leader>ff :Telescope find_files<CR>
 let g:lmap.f.f = 'Find file'
 nnoremap <leader>fg :Telescope live_grep<CR>
 let g:lmap.f.g = 'Find word'
+nnoremap <leader>ft :Telescope help_tags<CR>
+let g:lmap.f.t = 'Help Tags'
 nnoremap <leader>fw :SudaWrite<CR>
 let g:lmap.f.w = 'Write file with sudo permissions (For unwritable files)'
 nnoremap <leader>fr :SudaRead<CR>
 let g:lmap.f.r = 'Re-open file with sudo permissions (For unreadable files only!)'
 " Override existing telescope <leader>fh mapping
 " autocmd VimEnter * noremap <leader>fh :Telescope oldfiles<CR>
-nnoremap <leader>fh :Telescope olfiles<CR>
+nnoremap <leader>fh :Telescope oldfiles<CR>
 let g:lmap.f.h = 'Recently opened files'
 nnoremap <leader>fn :new<CR>
 let g:lmap.f.n = 'Create a new unnamed buffer'
@@ -310,6 +328,8 @@ nnoremap <leader>tm :MinimapToggle<CR>
 let g:lmap.t.m = 'Toggle Minimap'
 nnoremap <leader>tn :set number! relativenumber!<CR>
 let g:lmap.t.n = 'Toggle Line Numbers'
+nnoremap <leader>tq :BqfToggle<CR>
+let g:lmap.t.q = 'Auto toggle nvim-bqf'
 nnoremap <leader>ts :Dashboard<CR>
 let g:lmap.t.s = 'Open start screen'
 nnoremap <leader>tT :Vista!!<CR>
@@ -473,6 +493,8 @@ nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
 nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
 nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
 nnoremap <leader>ft <cmd>lua require('telescope.builtin').help_tags()<cr>
+" Set-up vim_buffer_ previewer
+autocmd User TelescopePreviewerLoaded setlocal wrap
 
 "========================"
 "  Dashboard-nvim Setup  "

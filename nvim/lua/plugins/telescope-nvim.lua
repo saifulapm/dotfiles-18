@@ -33,7 +33,7 @@ return function()
             shorten_path = true,
             winblend = 0,
             width = 0.75,
-            preview_cutoff = 120,
+            preview_cutoff = 80,
             results_height = 1,
             results_width = 0.8,
             border = {},

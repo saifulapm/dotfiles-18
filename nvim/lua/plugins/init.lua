@@ -31,7 +31,7 @@ return require('packer').startup(function()
     -- Statusline
     use {
         'datwaft/bubbly.nvim',
-        config = require('statusline')
+        config = require('plugins.statusline')
     }
     -- Tabline
     use 'romgrk/barbar.nvim'
@@ -43,12 +43,12 @@ return require('packer').startup(function()
     use {
         'beauwilliams/focus.nvim',
         branch = 'cust_filetypes',
-        config = require('focus-nvim')
+        config = require('plugins.focus-nvim')
     }
     -- Better terminal
     use {
         'akinsho/nvim-toggleterm.lua',
-        config = require('nvim-toggleterm')
+        config = require('plugins.nvim-toggleterm')
     }
     -- Viewer & finder for LSP symbols and tags
     use 'liuchengxu/vista.vim'
@@ -65,7 +65,7 @@ return require('packer').startup(function()
         requires = {
             {'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}
         },
-        config = require('telescope-nvim')
+        config = require('plugins.telescope-nvim')
     }
 
 ---[[------------------]]---
@@ -82,12 +82,12 @@ return require('packer').startup(function()
     -- Built-in LSP Config
     use {
         'neovim/nvim-lspconfig',
-        config = require('lsp')
+        config = require('plugins.lsp')
     }
     -- Completion plugin
     use {
         'hrsh7th/nvim-compe',
-        config = require('nvim-compe')
+        config = require('plugins.nvim-compe')
     }
 
 ---[[--------------]]---
@@ -102,13 +102,15 @@ return require('packer').startup(function()
     -- Autopairs
     use {
         'windwp/nvim-autopairs',
-        config = require('autopairs')
+        config = require('plugins.autopairs')
     }
     -- Code runner. Run install.sh as a post-installation script,
     -- it will download or compile the sniprun binary.
     use { 'michaelb/sniprun', run = 'bash install.sh' }
     -- EditorConfig support
     use 'editorconfig/editorconfig-vim'
+    -- TOML support
+    use 'cespare/vim-toml'
 
 ---[[----------]]---
 --      Misc      --
@@ -124,7 +126,7 @@ return require('packer').startup(function()
     use {
         'nvim-treesitter/nvim-treesitter',
         run = ':TSUpdate',
-        config = require('tree-sitter')
+        config = require('plugins.tree-sitter')
     }
 
 ---[[----------]]---
@@ -138,7 +140,7 @@ return require('packer').startup(function()
     -- Fastest colorizer
     use {
         'norcalli/nvim-colorizer.lua',
-        config = require('nvim-colorizer')
+        config = require('plugins.nvim-colorizer')
     }
     -- HTTP Client support, requires
     -- https://github.com/bayne/dot-http
