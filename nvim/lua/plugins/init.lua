@@ -11,7 +11,6 @@ return require('packer').startup(function()
     -- Plugins manager
     use {
         'wbthomason/packer.nvim',
-        commit = 'daee78cf213d780b33cf1df7d07809a90ce39805',
         opt = true
     }
     -- Auxiliar functions

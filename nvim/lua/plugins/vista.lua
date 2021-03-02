@@ -3,6 +3,7 @@ g = vim.g
 
 ----------------------------
 
+return function()
 -- How each level is indented and what to prepend
 -- g.vista_icon_indent = ['╰─▸ ', '├─▸ ']
 -- Position to open the vista sidebar only
@@ -25,3 +26,4 @@ let g:vista#renderer#icons = {
     \ "variable": "\uf71b",
     \ }
 \]\], true) ]]
+end
