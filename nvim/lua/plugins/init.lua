@@ -1,32 +1,41 @@
 --[[------------------------]]--
---   Plugins initialization
+--   Plugins initialization   --
 --]]------------------------[[--
 
-vim.cmd [[packadd packer.nvim]]
+vim.cmd [[ packadd packer.nvim ]]
 
 return require('packer').startup(function()
 ---[[------------]]---
 --    Essentials    --
 ---]]------------[[---
-    -- Packer can manage itself as an optional plugin
-    use { 'wbthomason/packer.nvim', opt = true }
+    -- Plugins manager
+    use {
+        'wbthomason/packer.nvim',
+        commit = 'daee78cf213d780b33cf1df7d07809a90ce39805',
+        opt = true
+    }
     -- Auxiliar functions
     use 'svermeulen/vimpeccable'
 ---[[--------]]---
 --      UI      --
 ---]]--------[[---
     -- Fancy start screen
-    use 'glepnir/dashboard-nvim'
+    use {
+        'glepnir/dashboard-nvim',
+        config = require('plugins.dashboard')
+    }
     -- Colorschemes
     use {
         'sainnhe/sonokai',
-        'wadackel/vim-dogrun'
+        'wadackel/vim-dogrun',
+        'ghifarit53/tokyonight-vim'
     }
     -- File tree, don't use the latest commit 'cause it's broken, at least for me
     use {
         'kyazdani42/nvim-tree.lua',
         requires = { 'kyazdani42/nvim-web-devicons' },
-        commit = '0136801444cfb2d85ae956d8c23c79f4a9f26b90'
+        commit = '491fd68d62cebd4a07642cc052028d9d3b55f62e',
+        config = require('plugins.nvim-tree')
     }
     -- Statusline
     use {
@@ -51,11 +60,17 @@ return require('packer').startup(function()
         config = require('plugins.nvim-toggleterm')
     }
     -- Viewer & finder for LSP symbols and tags
-    use 'liuchengxu/vista.vim'
+    use {
+        'liuchengxu/vista.vim',
+        config = require('plugins.vista')
+    }
     -- Minimap, requires wfxr/code-minimap
     use 'wfxr/minimap.vim'
     -- Keybindings menu like SpaceVim
-    use 'spinks/vim-leader-guide'
+    use {
+        'spinks/vim-leader-guide',
+        config = require("plugins.leader-mapper")
+    }
 
 ---[[--------------]]---
 --    Fuzzy Search    --
@@ -98,7 +113,10 @@ return require('packer').startup(function()
     -- NOTE: It will use your current user password, not the root password.
     use 'lambdalisue/suda.vim'
     -- File formatting
-    use 'sbdchd/neoformat'
+    use {
+        'sbdchd/neoformat',
+        config = require('plugins.neoformat')
+    }
     -- Autopairs
     use {
         'windwp/nvim-autopairs',
@@ -111,6 +129,8 @@ return require('packer').startup(function()
     use 'editorconfig/editorconfig-vim'
     -- TOML support
     use 'cespare/vim-toml'
+    -- Elixir support
+    use 'elixir-editors/vim-elixir'
 
 ---[[----------]]---
 --      Misc      --
@@ -146,5 +166,9 @@ return require('packer').startup(function()
     -- https://github.com/bayne/dot-http
     use 'bayne/vim-dot-http'
     -- Markdown previewer
-    use { 'iamcco/markdown-preview.nvim', run = 'cp app && yarn install' }
+    use {
+        'iamcco/markdown-preview.nvim',
+        run = 'cp app && yarn install',
+        config = require('plugins.mdprev')
+    }
 end)
