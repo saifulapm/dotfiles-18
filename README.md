@@ -4,7 +4,6 @@
         These are my personal dotfiles for my GNU/Linux
         and Termux development environments.
     </p>
-
     <img src="./images/bspwm-demo.png" alt="bspwm demo" />
 </div>
 
@@ -12,10 +11,14 @@
 
 ## Content
 
-> The bspwm setup has some extra dependencies, see its configuration.
+> **NOTES:**
+> 
+> 1. The bspwm setup has some extra dependencies, see its configuration.
 >
-> You can also change kwallet in bspwm for another keyring service if you don't
+> 2. You can also change kwallet in bspwm for another keyring service if you don't
 > use KDE as your DE.
+> 
+> 3. I'm using pipewire instead of pulseaudio but the pavolume script of my polybar _should_ work as expected with pulseaudio too.
 
 - Environment setup
   - Wallpapers
