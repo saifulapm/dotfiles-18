@@ -1,0 +1,71 @@
+#!/bin/sh
+
+##### Autostart #####
+if ! pgrep -x "sxhkd" >/dev/null; then
+    sxhkd &
+fi
+# Start pipewire
+if ! pgrep -x "pipewire-pulse" >/dev/null; then
+    pipewire &
+fi
+# Start compositor, set wallpaper and colors
+if ! pgrep -x "compton" >/dev/null; then
+    # Enable blur in compton
+    compton --backend glx --blur-method kawase --blur-background --blur-strength 6 &
+    # Set the wallpaper
+    feh --bg-scale $HOME/Imágenes/Wallpapers/onedark.png &
+    # Set the colors based on the wallpaper
+    wal -n -i $HOME/Imágenes/Wallpapers/onedark.png &
+    xset -b & # For annoying beeping sounds
+fi
+# Start KWallet for passwords (including wiif passwords)
+if ! pgrep -x "kwalletd5" >/dev/null; then
+    kwalletd5 &
+fi
+# Start NetworkManager applet for polybar
+if ! pgrep -x "nm-applet" >/dev/null; then
+    nm-applet &
+fi
+# Start dunst notifications with wal colors
+if ! pgrep -x "dunst" >/dev/null; then
+    $HOME/.config/dunst/dunstwal.sh &
+fi
+# Start polybar
+if ! pgrep -x "polybar" >/dev/null; then
+    $HOME/.config/polybar/launch.sh &
+fi
+
+##### Workspaces and Borders #####
+bspc monitor -d I II III IV V
+
+bspc config border_width 2
+bspc config window_gap 15
+bspc config split_ratio 0.5
+bspc config borderless_monocle true
+bspc config gapless_monocle true
+
+bspc config top_padding 40
+bspc config bottom_padding 20
+bspc config left_padding 20
+bspc config right_padding 20
+
+bspc rule -a Emacs state=tiled follow=on
+bspc rule -a Chrome state=tiled follow=on
+bspc rule -a Kitty state=tiled follow=on
+bspc rule -a Discord state=tiled follow=on
+bspc rule -a Dolphin state=floating follow=on
+bspc rule -a Telegram state=tiled follow=on
+
+# Focus on pointer
+bspc config focus_follows_pointer true
+bspc config pointer_follows_focus true
+
+# Use wallpaper colors
+. "${HOME}/.cache/wal/colors.sh"
+
+# Set the border colors.
+bspc config normal_border_color "#373d48"
+bspc config active_border_color "#98c379"
+bspc config focused_border_color "#373d48"
+bspc config urgent_border_color "#e06c75"
+bspc config presel_feedback_color "#abb2bf"

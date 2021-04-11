@@ -1,0 +1,18 @@
+configuration {
+  terminal: "kitty";
+  show-icons: true;
+  icon-theme: "Papirus Dark";
+  drun-show-actions: true;
+  modi: "combi,window,drun";
+  combi-modi: "window,drun";
+  show: "combi";
+  auto-select: false;
+  hide-scrollbar: true;
+  sidebar-mode: true;
+  theme: "~/.local/share/rofi/themes/onedark.rasi";
+}
+
+/* Increase icons size */
+element-icon {
+    size: 1.8ch;
+}

@@ -1,35 +1,54 @@
-# Dotfiles
+<div align="center">
+    <h1>Dotfiles</h1>
+    <p>
+        These are my personal dotfiles for my GNU/Linux
+        and Termux development environments.
+    </p>
 
-These are my personal dotfiles for my GNU/Linux
-and Termux development environments.
+    <img src="./images/bspwm-demo.png" alt="bspwm demo" />
+</div>
+
+> Much of my setup uses the onedark color scheme.
 
 ## Content
 
-- Wallpapers
-- Installation of packages
-  - Languages
-  - ZSH
-  - Tools
-- Configurations
-  - Git
-  - ZSH
-  - SpaceVim (for neovim 0.4)
-  - lsd
+> The bspwm setup has some extra dependencies, see its configuration.
+>
+> You can also change kwallet in bspwm for another keyring service if you don't
+> use KDE as your DE.
+
+- Environment setup
+  - Wallpapers
+  - Configurations (dynamic colors using pywal)
+    - bspwm + [bsp-layout](https://github.com/phenax/bsp-layout)
+    - dunst
+    - polybar
+    - rofi
+    - sxhkd
+    - compton (I'm too lazy to switch to picom)
+- Other configurations
+  - Shells
+    - ZSH (for oh-my-zsh, searching for other manager)
+  -  Editors (yes, I use Neovim and Emacs ...)
+    - Neovim (Doom Nvim, requires Neovim nightly)
+    - Emacs (Doom Emacs)
+  - Terminal tools
+    - bat
+    - lsd
+    - htop
+    - bpytop
+    - neofetch
   - Termux
 
 ### Installing
 
-Clone the repository and run the installation
-script inside the scripts folder.
-
-> **NOTE:** You must run the installation script
-> while inside the scripts folder!
+Clone the repository and copy the directories to their proper location,
+nothing more.
 
 ### Neovim
 
-My setup for Neovim (nightly only) is made with performance and ease in mind and inspired _a bit_ by [SpaceVim](https://spacevim.org/).
-
-> See [Nvlood](https://github.com/NTBBloodbath/nvlood) for more details.
+I use [Doom Nvim](https://github.com/NTBBloodbath/doom-nvim) as my daily use
+setup for Neovim (Neovim nightly required).
 
 ---
 
@@ -40,3 +59,5 @@ My setup for Neovim (nightly only) is made with performance and ease in mind and
 | ![clang_anime_girl](./wallpapers/clang_anime_girl.png) | ![nordic](./wallpapers/nordic.jpg) | ![cyberpunk 2077](./wallpapers/cyberpunk-2077.jpg) |
 
 > All the credits of the images go to their authors (I don't know what they are).
+>
+> You can find more wallpapers at [wallpapers directory](./wallpapers)

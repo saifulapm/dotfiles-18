@@ -1,0 +1,45 @@
+22/01/21 (15:26:55) | ERROR: Data collection thread failed with exception: 'pid'
+Traceback (most recent call last):
+  File "/usr/bin/bpytop", line 2825, in _runner
+    collector._draw()
+  File "/usr/bin/bpytop", line 3839, in _draw
+    ProcBox._draw_fg()
+  File "/usr/bin/bpytop", line 2504, in _draw_fg
+    f'{Mv.to(dy-1, x+1)}{THEME.proc_box(Symbol.title_left)}{Fx.b}{THEME.title(str(proc.details["pid"]))}{Fx.ub}{THEME.proc_box(Symbol.title_right)}'
+KeyError: 'pid'
+22/01/21 (15:26:56) | WARNING: Exiting with errorcode (1). Runtime 0:01:55 
+
+05/02/21 (15:31:35) | ERROR: Input thread failed with exception: (5, 'Input/output error')
+Traceback (most recent call last):
+  File "/usr/bin/bpytop", line 967, in _get_key
+    input_key = ""
+  File "/usr/bin/bpytop", line 760, in __exit__
+    termios.tcsetattr(self.stream, termios.TCSANOW, self.original_stty)
+termios.error: (5, 'Input/output error')
+05/02/21 (15:31:36) | ERROR: Data collection thread failed with exception: [Errno 5] Input/output error
+Traceback (most recent call last):
+  File "/usr/bin/bpytop", line 2895, in _runner
+    if CONFIG.draw_clock and CONFIG.update_ms != 1000: Box.draw_clock()
+  File "/usr/bin/bpytop", line 1699, in draw_clock
+    Draw.buffer("clock", out, z=1, now=now, once=not force, only_save=Menu.active)
+  File "/usr/bin/bpytop", line 1028, in buffer
+    cls.out(name)
+  File "/usr/bin/bpytop", line 1042, in out
+    cls.now(out)
+  File "/usr/bin/bpytop", line 1001, in now
+    print(*args, sep="", end="", flush=True)
+OSError: [Errno 5] Input/output error
+06/02/21 (19:12:46) | INFO: Loglevel set to INFO
+06/02/21 (19:12:46) | INFO: Loglevel set to DEBUG
+06/02/21 (19:12:46) | INFO: Loglevel set to INFO
+20/02/21 (02:49:35) | ERROR: Data collection thread failed with exception: Sign not allowed in string format specifier
+Traceback (most recent call last):
+  File "/usr/bin/bpytop", line 2913, in _runner
+    collector._draw()
+  File "/usr/bin/bpytop", line 3941, in _draw
+    ProcBox._draw_fg()
+  File "/usr/bin/bpytop", line 2693, in _draw_fg
+    label = (f'{THEME.title}{Fx.b}{Mv.to(y, x)}{"Pid:":>7} {"Program:" if prog_len > 8 else "Prg:":<{prog_len}}' + (f'{"Arguments:":<{arg_len-4}}' if arg_len else "") +
+ValueError: Sign not allowed in string format specifier
+20/02/21 (02:49:35) | WARNING: Exiting with errorcode (1). Runtime 0:00:02 
+
