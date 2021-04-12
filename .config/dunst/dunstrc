@@ -224,29 +224,6 @@ force_xinerama = false
 # where there are multiple screens with very different dpi values.
 per_monitor_dpi = false
 
-[urgency_low]
-# IMPORTANT: colors have to be defined in quotation marks.
-# Otherwise the "#" and following would be interpreted as a comment.
-background = "#35383b"
-#foreground = "#848b92"
-foreground = "#fcf7e2"
-frame_color = "#27292c"
-timeout = 3
-# Icon for notifications with low urgency, uncomment to enable
-#icon = /path/to/icon
-
-[urgency_normal]
-background = "#35383b"
-#foreground = "#7693ac"
-foreground = "#dffebe"
-frame_color = "#27292c"
-timeout = 10
-# Icon for notifications with normal urgency, uncomment to enable
-#icon = /path/to/icon
-
-[urgency_critical]
-background = "#35383b"
-
 ## base16-onedark.dunstrc
 [urgency_low]
    background = "#353b45"
