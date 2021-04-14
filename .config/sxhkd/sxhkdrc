@@ -13,6 +13,10 @@ super + w
 super + d
     Discord
 
+# Code editor
+super + e
+    codium
+
 # program launcher
 super + @space
 	rofi -show combi
@@ -48,7 +52,7 @@ XF86AudioStop
 # Screenshots
 #
 # Fullscreen, Active Window, Region
-super + {@Print,shift + a,r}
+super + {@Print,shift + {a,r}}
     spectacle -b{f,a,r}
 
 #

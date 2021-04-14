@@ -140,10 +140,14 @@ menu-1-1 = Emacs
 menu-1-1-exec = emacs
 menu-1-1-background = ${colors.red}
 menu-1-1-foreground = ${colors.black}
-menu-1-2 = File Manager
-menu-1-2-exec = dolphin
+menu-1-2 = Codium
+menu-1-2-exec = codium
 menu-1-2-background = ${colors.red}
 menu-1-2-foreground = ${colors.black}
+menu-1-3 = File Manager
+menu-1-3-exec = dolphin
+menu-1-3-background = ${colors.red}
+menu-1-3-foreground = ${colors.black}
 
 menu-2-0 = Discord
 menu-2-0-exec = Discord
@@ -194,11 +198,11 @@ label-focused-foreground = ${colors.blue}
 label-focused-padding = 1
 
 label-occupied = %icon%
-label-occupied-foreground = ${colors.black-alt}
+label-occupied-foreground = ${colors.foreground}
 label-occupied-padding = 1
 
 label-empty = %icon%
-label-empty-foreground = ${colors.foreground}
+label-empty-foreground = ${colors.black-alt}
 label-empty-padding = 1
 
 ;------------------------------------------------;
@@ -257,7 +261,7 @@ label-open-foreground = ${colors.red}
 label-close = ""
 label-close-background = ${colors.black-alt}
 label-close-foreground = ${colors.red}
-label-separator = " "
+label-separator = "   "
 label-separator-background = ${colors.black-alt}
 label-separator-foreground = ${colors.white}
 

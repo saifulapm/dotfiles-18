@@ -1,6 +1,9 @@
 #!/bin/sh
 
 ##### Autostart #####
+# Set cursor
+xsetroot -cursor_name left_ptr &
+# Shortcuts
 if ! pgrep -x "sxhkd" >/dev/null; then
     sxhkd &
 fi
@@ -50,11 +53,12 @@ bspc config left_padding 20
 bspc config right_padding 20
 
 bspc rule -a Emacs state=tiled follow=on
+bspc rule -a Codium state=tiled follow=off
 bspc rule -a Chrome state=tiled follow=on
 bspc rule -a Kitty state=tiled follow=on
-bspc rule -a Discord state=tiled follow=on
+bspc rule -a Discord state=tiled follow=off
 bspc rule -a Dolphin state=floating follow=on
-bspc rule -a Telegram state=tiled follow=on
+bspc rule -a Telegram state=tiled follow=off
 
 # Focus on pointer
 bspc config focus_follows_pointer true
